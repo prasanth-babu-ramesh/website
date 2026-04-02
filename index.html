@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prasanth Babu | Environmental Biotechnology</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0A0A0A;
+            --text-light: #F4F4F5;
+            --brand-green: #00FF66;
+            --brand-blue: #00E5FF;
+            --font-sans: 'Inter', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-muted: rgba(255, 255, 255, 0.65);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background-color: var(--brand-green);
+            color: var(--bg-dark);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-display);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            mix-blend-mode: difference;
+            display: none;
+        }
+
+        .custom-cursor.hovering {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 255, 102, 0.2);
+            border-color: var(--brand-green);
+        }
+
+        @media (min-width: 768px) {
+            .custom-cursor { display: block; }
+            body, a, button { cursor: none; }
+        }
+
+        /* Layout & Utilities */
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .border-top { border-top: 1px solid var(--border-color); }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            padding: 24px;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav.scrolled {
+            background-color: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .logo span { color: var(--brand-green); }
+
+        .nav-links {
+            display: none;
+            gap: 32px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        @media (min-width: 768px) { .nav-links { display: flex; } }
+
+        .nav-links a:hover { color: white; }
+        .nav-links a.highlight { color: var(--brand-green); }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .hero-bg-glow {
+            position: absolute;
+            top: 20%;
+            right: 10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0,255,102,0.08) 0%, rgba(0,0,0,0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .vision-tag {
+            color: var(--brand-green);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) { .hero h1 { font-size: 5rem; } }
+
+        .hero-desc {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .vision-flow {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .vision-flow span {
+            color: var(--brand-green);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            font-weight: 600;
+            border-radius: 2px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-green);
+            color: var(--bg-dark);
+        }
+
+        .btn-primary:hover {
+            background-color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--border-color);
+            color: white;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 24px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-green);
+        }
+
+        /* Section Typography */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-title::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: var(--border-color);
+        }
+
+        /* Content Blocks */
+        .content-block {
+            margin-bottom: 4rem;
+        }
+
+        .content-block p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .content-block strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .content-block i {
+            color: #fff;
+        }
+
+        /* Academic Lists */
+        .academic-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .academic-entry {
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: rgba(255,255,255,0.01);
+            transition: all 0.3s ease;
+        }
+
+        .academic-entry:hover {
+            border-color: rgba(0, 255, 102, 0.3);
+            background: rgba(0, 255, 102, 0.02);
+            transform: translateX(4px);
+        }
+
+        .pub-tag {
+            font-size: 0.75rem;
+            font-family: var(--font-display);
+            background: rgba(0, 255, 102, 0.1);
+            border: 1px solid rgba(0, 255, 102, 0.2);
+            padding: 4px 10px;
+            border-radius: 2px;
+            color: var(--brand-green);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .entry-title {
+            font-weight: 600;
+            color: #fff;
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 1.15rem;
+            line-height: 1.4;
+        }
+
+        .entry-meta {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* Experience Items */
+        .experience-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 3rem;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 8px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--brand-green);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+        }
+
+        .experience-header {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .experience-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: baseline;
+            }
+        }
+
+        .role {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            font-family: var(--font-display);
+        }
+
+        .org {
+            color: var(--brand-green);
+            font-weight: 500;
+            font-size: 1rem;
+            font-family: var(--font-display);
+        }
+
+        /* Capabilities Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr 1fr; }
+        }
+
+        .capability-group h3 {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .capability-list {
+            list-style: none;
+        }
+
+        .capability-list li {
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .capability-list li::before {
+            content: '▹';
+            color: var(--brand-green);
+            margin-right: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor" id="cursor"></div>
+
+    <nav id="navbar">
+        <div class="logo">PB<span>.</span></div>
+        <div class="nav-links">
+            <a href="#research">Research</a>
+            <a href="#publications">Publications</a>
+            <a href="#experience">Experience</a>
+            <a href="#connect" class="highlight">Connect</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg-glow"></div>
+            <div class="container hero-content">
+                <span class="vision-tag animate-on-scroll">PhD Candidate • Environmental Biotechnology</span>
+                <h1 class="animate-on-scroll" style="transition-delay: 0.1s;">Prasanth Babu</h1>
+                <p class="hero-desc animate-on-scroll" style="transition-delay: 0.2s;">
+                    Investigating the intersection of microbial engineering and plastic circularity. My research focuses on transforming plastic waste into industrial carbon feedstock by decoding the polymer-microbe interface.
+                </p>
+                <div class="vision-flow animate-on-scroll" style="transition-delay: 0.3s;">
+                    Plastic <span>&rarr;</span> Carbon <span>&rarr;</span> Chemistry
+                </div>
+                
+                <div class="btn-group animate-on-scroll" style="transition-delay: 0.4s;">
+                    <a href="https://prasheer.github.io/Prasanth_Babu_CV.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download Full CV
+                    </a>
+                    <a href="#research" class="btn btn-secondary">Explore Research</a>
+                </div>
+
+                <div class="social-links animate-on-scroll" style="transition-delay: 0.5s;">
+                    <a href="mailto:prasanth.babu.ramesh@gmail.com">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        Email
+                    </a>
+                    <a href="https://www.linkedin.com/in/theprashee/" target="_blank" rel="noopener noreferrer">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        LinkedIn
+                    </a>
+                    <a href="https://x.com/ThePrashee" target="_blank" rel="noopener noreferrer">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg>
+                        X.com
+                    </a>
+                    <a href="https://orcid.org/0000-0002-3119-267X" target="_blank" rel="noopener noreferrer">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        ORCID
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Section -->
+        <section id="research" class="section-padding border-top">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Research Focus</h2>
+                
+                <div class="content-block animate-on-scroll">
+                    <p>
+                        My doctoral work at the <strong>IITB-Monash Research Academy</strong> explores the early colonization dynamics of <i>Marinobacter adhaerens</i> on weathered polymers. By mapping surface chemistry evolution through advanced metrology—including X-ray Photoelectron Spectroscopy (XPS) and Atomic Force Microscopy (AFM)—I evaluate how environmental weathering dictates the thermodynamic viability of microbial biotransformation for industrial application.
+                    </p>
+                    <p>
+                        I bridge the gap between lab-scale surface chemistry, synthetic biology, and regulatory frameworks. I am deeply passionate about learning from the agility of deep-tech startups and venture capital—understanding how to rapidly iterate, de-risk scientific hypotheses, and build scalable ventures that turn environmental science into industrial-scale biomanufacturing.
+                    </p>
+                </div>
+
+                <div class="grid-2 animate-on-scroll">
+                    <div class="capability-group">
+                        <h3>Material Decoding</h3>
+                        <ul class="capability-list">
+                            <li>Fourier Transform Infrared Spectroscopy (FTIR)</li>
+                            <li>X-ray Photoelectron Spectroscopy (XPS)</li>
+                            <li>Scanning Electron Microscopy (SEM)</li>
+                            <li>Atomic Force Microscopy (AFM)</li>
+                            <li>High-Temperature Gel Permeation Chromatography (HT-GPC)</li>
+                            <li>Gas Chromatography (GC)</li>
+                            <li>Liquid Chromatography–Mass Spectrometry (LC-MS)</li>
+                        </ul>
+                    </div>
+                    <div class="capability-group">
+                        <h3>Biological & Environmental Systems</h3>
+                        <ul class="capability-list">
+                            <li>Microbial Colonization & Biofilm Dynamics</li>
+                            <li>Synthetic Biology Concepts</li>
+                            <li>Polymer Weathering Kinetics</li>
+                            <li>ASTM/ISO/OECD Biodegradability Frameworks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications & Talks -->
+        <section id="publications" class="section-padding border-top">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Selected Publications & Talks</h2>
+                
+                <ul class="academic-list">
+                    <li class="academic-entry animate-on-scroll">
+                        <span class="pub-tag">Under Review</span>
+                        <span class="entry-title">Time-dependent release and intake assessment of nanoplastics from paper cups.</span>
+                        <span class="entry-meta">Ramesh, P., et al. (2025). <i>Journal of Hazardous Materials.</i></span>
+                    </li>
+                    <li class="academic-entry animate-on-scroll">
+                        <span class="pub-tag">Under Review</span>
+                        <span class="entry-title">Differential early colonization of Marinobacter adhaerens HP15 on plastics.</span>
+                        <span class="entry-meta">Ramesh, P., et al. (2025). <i>Environmental Pollution.</i></span>
+                    </li>
+                    <li class="academic-entry animate-on-scroll">
+                        <span class="pub-tag">Invited Speaker</span>
+                        <span class="entry-title">"Shaping the fate of microplastics"</span>
+                        <span class="entry-meta">CRC 1357 Mikroplastics, Germany (Sep 2024).</span>
+                    </li>
+                    <li class="academic-entry animate-on-scroll">
+                        <span class="pub-tag">Oral Presentation</span>
+                        <span class="entry-title">"Differential early colonization of Marinobacter adhaerens HP15 on weathered plastics."</span>
+                        <span class="entry-meta">14th SNO NANO Conference, San Diego, USA (2024).</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="section-padding border-top">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Entrepreneurship & Experience</h2>
+                
+                <div class="experience-item animate-on-scroll">
+                    <div class="experience-header">
+                        <span class="role">Assistant Manager – Biodegradability Services</span>
+                        <span class="org">Intertek India</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem;">
+                        Led the Biosciences team in validating plastic biodegradation via ISO and ASTM standards for global industrial clients. Architected industrial biodegradability frameworks, translating complex regulatory standards into scalable validation systems.
+                    </p>
+                </div>
+                
+                <div class="experience-item animate-on-scroll">
+                    <div class="experience-header">
+                        <span class="role">Co-Founder</span>
+                        <span class="org">One Health Genomics</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem;">
+                        Navigated the leap from academic hypothesis to commercial biotechnology. Secured funding through IIT Bombay's IDEAS Program to develop genomic solutions for environmental health. Recognized as a Eureka! finalist.
+                    </p>
+                </div>
+
+                <div class="experience-item animate-on-scroll">
+                    <div class="experience-header">
+                        <span class="role">PhD Researcher</span>
+                        <span class="org">IIT Bombay & Monash University</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem;">
+                        Mapped the surface chemistry evolution and microbial colonization dynamics of marine plastics. Bridged material characterization with biological systems to inform the design of scalable biotransformation systems.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-top" id="connect">
+        <div class="container">
+            <p>&copy; 2026 Prasanth Babu | Built for the Bio-economy.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            const target = e.target;
+            const isClickable = 
+                window.getComputedStyle(target).cursor === 'pointer' || 
+                target.tagName.toLowerCase() === 'a' ||
+                target.tagName.toLowerCase() === 'button' ||
+                target.closest('a') ||
+                target.closest('button');
+            
+            if (isClickable) {
+                cursor.classList.add('hovering');
+            } else {
+                cursor.classList.remove('hovering');
+            }
+        });
+
+        // Navbar Scroll Logic
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50px 0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach((element) => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
